@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#--------------------------------------------------#\n# 第4讲: 复杂数据处理和分析作业                    #\n# Author：Datacruiser\n# 知乎专栏：数海拾荒                               #\n#--------------------------------------------------#\n\n\n#视图模块\n\nlibrary(ggplot2)\nlibrary(stringr)\n\n#当前项目运行根路径\n#例如：C:/install/workspace/da\nprojectPath <- getwd()\n#service路径\n#例如C:/install/workspace/da/service/flight.R\nservicePath <- str_c(projectPath,\n                     \"service\",\n                     \"movie.R\",\n                     sep=\"/\")\n\n#编译R文件\nsource(servicePath)\n\ndisDirector <- disDirector()\ndisActor <- disActor()\n\n#导演评分散点图\ndirectorView <- ggplot(data = disDirector) + \n  geom_point(mapping = aes(x = mean_likes, y = mean_scores))+\n  geom_smooth(mapping = aes(x = mean_likes, y = mean_scores))\n\n#保存分析结果\noutputpath <- str_c(projectPath,\"output\",\"movieScore vs direcetorLikes.jpg\",sep=\"/\")\n\nggsave(filename=outputpath, plot=directorView)\n\n\n#演员评分散点图\nactorView <- ggplot(data = disActor) + \n  geom_point(mapping = aes(x = mean_likes, y = mean_scores))+\n  geom_smooth(mapping = aes(x = mean_likes, y = mean_scores))\n\n#保存分析结果\noutputpath <- str_c(projectPath,\"output\",\"movieScore vs actorLikes.jpg\",sep=\"/\")\n\nggsave(filename=outputpath, plot=actorView)\n\n\n\n",
+    "created" : 1492091725092.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2678640890",
+    "id" : "9F3367F7",
+    "lastKnownWriteTime" : 1492174490,
+    "last_content_update" : 1492174490041,
+    "path" : "G:/DataCruiser/workspace/IMDB Analysis/view/movieView.R",
+    "project_path" : "view/movieView.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

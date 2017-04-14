@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#--------------------------------------------------#\n# 第4讲: 复杂数据处理和分析作业                    #\n# Author：Datacruiser\n# 知乎专栏：数海拾荒                               #\n#--------------------------------------------------#\n\n# 导入相关包\nlibrary(dplyr)\nlibrary(stringr)\n\n\n#当前项目运行根路径\n#例如：G:/DataCruiser/workspace/IMDB Analysis\nprojectPath <- getwd()\n#movie_metadata.csv路径\n#例如G:/DataCruiser/workspace/IMDB Analysis/data/movie_metadata.csv\nservicePath <- str_c(projectPath,\n                     \"data\",\n                     \"movie_metadata.csv\",\n                     sep = \"/\")\n\n#导入数据\nmovies <- read.csv(servicePath, header = T, stringsAsFactors = F)\n\ndisDirector <- function(){\n  #选择子集\n  mymovies <- select(movies,\n  \t\t\t\t\ttitle_year,\n  \t\t\t\t\timdb_score,\n  \t\t\t\t\tdirector_facebook_likes,\n  \t\t\t\t\tactor_1_facebook_likes)\n\n  #列名重命名，等号左边是新列名，右边是就列名\n  mymovies <- rename(mymovies, \n                     year = title_year,\n                     scores = imdb_score,\n                     direcotrlikes = director_facebook_likes,\n                     actorlikes = actor_1_facebook_likes)\n  \n  #删除缺失数据\n  mymovies <- filter(mymovies, \n                  !is.na(year), \n                  !is.na(scores),\n                  !is.na(direcotrlikes),\n                  !is.na(actorlikes))\n  \n  #数据排序\n  mymovies <- arrange(mymovies, desc(year))\n  \n  #数据计算：facebook上导演点赞数与相应导演所导的电影IMDB评分数之间的关系  \n  disDirector <- mymovies %>% \n    group_by(year) %>% \n    summarise(\n      count = n(),\n      mean_scores = mean(scores, na.rm = TRUE),\n      mean_likes = mean(direcotrlikes, na.rm = TRUE)\n    ) %>% \n    filter(count > 0)\n  \n  return(disDirector)\n}\n\n\ndisActor <- function(){\n #选择子集\n  mymovies <- select(movies,\n  \t\t\t\t\ttitle_year,\n  \t\t\t\t\timdb_score,\n  \t\t\t\t\tdirector_facebook_likes,\n  \t\t\t\t\tactor_1_facebook_likes)\n\n  #列名重命名，等号左边是新列名，右边是就列名\n  mymovies <- rename(mymovies, \n                     year = title_year,\n                     scores = imdb_score,\n                     direcotrlikes = director_facebook_likes,\n                     actorlikes = actor_1_facebook_likes)\n  \n  #删除缺失数据\n  mymovies <- filter(mymovies, \n                  !is.na(year), \n                  !is.na(scores),\n                  !is.na(direcotrlikes),\n                  !is.na(actorlikes))\n  \n  #数据排序\n  mymovies <- arrange(mymovies, desc(year))\n  \n  #数据计算：facebook上一号演员点赞数与相应导演所导的电影IMDB评分数之间的关系  \n  disActor <- mymovies %>% \n    group_by(year) %>% \n    summarise(\n      count = n(),\n      mean_scores = mean(scores, na.rm = TRUE),\n      mean_likes = mean(actorlikes, na.rm = TRUE)\n    ) %>% \n    filter(count > 0)\n  \n\n  return(disActor)\n}",
+    "created" : 1492172728674.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "323065520",
+    "id" : "AD759571",
+    "lastKnownWriteTime" : 1492093345,
+    "last_content_update" : 1492093345,
+    "path" : "G:/DataCruiser/workspace/IMDB Analysis/service/movie.R",
+    "project_path" : "service/movie.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
