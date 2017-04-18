@@ -14,7 +14,7 @@ library(stringr)
 #例如：C:/install/workspace/da
 projectPath <- getwd()
 #service路径
-#例如C:/install/workspace/da/service/flight.R
+#例如C:/install/workspace/da/service/moive.R
 servicePath <- str_c(projectPath,
                      "service",
                      "movie.R",
